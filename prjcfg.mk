@@ -11,12 +11,14 @@
 ## |                   http://softwaretoolsfactory.com                       |
 ## '-------------------------------------------------------------------------'
 ## ----= Change log =---------------------------------------------------------
+##     2. 2019.11.12, 22:40 Nuroferatu   [+] JIRA: SCL-7 - Add install dir variable
 ##     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial - configuration for settings library
 ## ---------------------------------------------------------------------------
 TMP_DIR := tmp
 INC_DIR := include
 SRC_DIR := src
 BIN_DIR := bin
+INSTALL_DIR := /usr/local
 
 LIB_NAME := settings
 LIB_PATH := ${BIN_DIR}/lib${LIB_NAME}.a
