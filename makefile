@@ -11,16 +11,22 @@
 ## |                   http://softwaretoolsfactory.com                       |
 ## '-------------------------------------------------------------------------'
 ## ----= Change log =---------------------------------------------------------
+##     2. 2019.11.13, 20:50 Nuroferatu   [*] Fix: Incorrect depenency file
+##                                       [+] fix: Missing bin and tmp directories makes make fail on build, added prepare target to solve this problem
 ##     1. 2019.11.11, 13:16 Nuroferatu   [+] Initial - builds library and testing application that uses it
 ## ---------------------------------------------------------------------------
 include buildcommon.mk
 
-build: ${LIB_PATH} ${BIN_DIR}/testapp
+build: prepare ${LIB_PATH} ${BIN_DIR}/testapp
 	@echo "Build done"
 
+prepare:
+	@mkdir -p ./${BIN_DIR}
+	@mkdir -p ./${TMP_DIR}
 clean:
-	${RM} -f ${TMP_DIR}/*.o
-	${RM} -f ${TMP_DIR}/*.d
+	${RM} ./${BIN_DIR}/*
+	${RM} ./${TMP_DIR}/*.o
+	${RM} ./${TMP_DIR}/*.d
 
 rebuild: clean build
 
@@ -41,6 +47,6 @@ ${TMP_DIR}/%.o: %.cpp
 
 ## Dependency
 -include ${TMP_DIR}/main.d
--include ${TMP_DIR}/servicebase.d
+-include ${TMP_DIR}/settings.d
 
 .PHONY: build clean rebuild install
