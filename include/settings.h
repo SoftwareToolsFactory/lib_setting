@@ -17,6 +17,19 @@
 #ifndef __STF_SETTINGS_H__
 
 namespace stf {
+
+enum eSettingLevel{
+    APP,
+    SYS,
+    USER
+};
+
+enum eSettingType{
+    BOOL,
+    NUM,
+    STRING
+};
+
 }; // ns:stf
 
 #endif /* ndef __STF_SETTINGS_H__ */
