@@ -6,11 +6,13 @@
 // |                                  '-..-'                                 |
 // | Desc: Settings library main include file                                |
 // | By: Nuroferatu - https://github.com/Nuroferatu                          |
+// |     Vasile     - https://github.com/Vasile0091                          |
 // |                                                                         |
 // | Copyright (C)2019 SoftwareToolsFactory                                  |
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     2  2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #pragma once
@@ -18,13 +20,13 @@
 
 namespace stf {
 
-enum eSettingLevel{
+enum eSettingLevel {
     APP,
     SYS,
     USER
 };
 
-enum eSettingType{
+enum eSettingType {
     BOOL,
     NUM,
     STRING
