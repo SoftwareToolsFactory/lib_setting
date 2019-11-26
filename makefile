@@ -11,11 +11,14 @@
 ## |                   http://softwaretoolsfactory.com                       |
 ## '-------------------------------------------------------------------------'
 ## ----= Change log =---------------------------------------------------------
+##     3. 2019.11.26, 09:29 Nuroferatu   [!] TMP: TestApp will not rebuild when library changes, now we do full rebuild by default
 ##     2. 2019.11.13, 20:50 Nuroferatu   [*] Fix: Incorrect depenency file
 ##                                       [+] fix: Missing bin and tmp directories makes make fail on build, added prepare target to solve this problem
 ##     1. 2019.11.11, 13:16 Nuroferatu   [+] Initial - builds library and testing application that uses it
 ## ---------------------------------------------------------------------------
 include buildcommon.mk
+
+rebuild: clean build
 
 build: prepare ${LIB_PATH} ${BIN_DIR}/testapp
 	@echo "Build done"
@@ -28,7 +31,6 @@ clean:
 	${RM} ./${TMP_DIR}/*.o
 	${RM} ./${TMP_DIR}/*.d
 
-rebuild: clean build
 
 install:
 
