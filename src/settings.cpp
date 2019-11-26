@@ -19,5 +19,17 @@
 using namespace std;
 using namespace stf;
 
+class SettingParam{
+public:    
+    SettingParam(string paramValue, eSettingLevel levelValue, eSettingType typeValue, bool boolValue) : \
+    paramName(paramValue), level(levelValue), type(typeValue), boolParam(boolValue) {}
+    
+private:
+    string paramName;
+    eSettingLevel level;
+    eSettingType type;
+    bool boolParam;
+};
+
 // vim: ts=4:sw=4:et:nowrap
 /* EOF */
