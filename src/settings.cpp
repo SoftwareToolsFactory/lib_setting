@@ -21,14 +21,28 @@ using namespace stf;
 
 class SettingParam{
 public:    
-    SettingParam(string paramValue, eSettingLevel levelValue, eSettingType typeValue, bool boolValue) : \
-    paramName(paramValue), level(levelValue), type(typeValue), boolParam(boolValue) {}
+    SettingParam(string name, eSettingLevel levelValue, eSettingType typeValue, string value) {
+
+        paramName = name;
+
+        if (typeValue != STRING){
+        
+            
+        }else
+        {
+            
+        }
+        
+    }
     
 private:
     string paramName;
-    eSettingLevel level;
-    eSettingType type;
-    bool boolParam;
+    string paramValue;
+    union unionType{
+	    int 	iVal;
+	    bool	bVal;
+	    float	cVal;
+    };
 };
 
 // vim: ts=4:sw=4:et:nowrap
