@@ -18,18 +18,60 @@
 #pragma once
 #ifndef __STF_SETTINGS_H__
 
+#include <string>
+
 namespace stf {
 
 enum eSettingLevel {
-    APP,
-    SYS,
-    USER
+    APP,        // Application level setting is defined in application and can not be modified by config file
+    SYS,        // System level can be modyfied only by config file that cames from system directory
+    USER        // User level can be modified by user and system configuration files
 };
 
 enum eSettingType {
     BOOL,
-    NUM,
+    NUM_INT,
+    NUM_FLOAT,
     STRING
+};
+
+class SettingParam {
+public:
+    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
+
+    eSettingLevel   getLevel( void ) const { return _level; }
+    eSettingType    getType( void ) const { return _type; }
+
+    bool    asBool( void ) const;
+    int     asInt( void ) const;
+    float   asFloat( void ) const;
+    const   std::string& asStr( void ) const;
+
+private:
+    union ParamType {
+        ParamType() : iVal( 0 ) {}
+        int 	iVal;
+        bool	bVal;
+        float	cVal;
+    };
+
+    eSettingLevel   _level;
+    eSettingType    _type;
+
+    std::string     _name;
+    std::string     _strVal;
+    std::string     _defaultVal;
+    ParamType       _val;
+};
+
+class ISettingsConfig {
+public:
+    virtual void addParam( SettingParam& param ) = 0;
+};
+
+class Settings {
+public:
+    static const SettingParam& get( const std::string& paramName );
 };
 
 }; // ns:stf

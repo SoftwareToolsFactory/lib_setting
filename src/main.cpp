@@ -19,11 +19,27 @@
 using namespace std;
 using namespace stf;
 
+// Sample params...
+static SettingParam datastoreIPAddress( "datastore", eSettingLevel::SYS, eSettingType::STRING, "127.0.0.1" );
+static SettingParam useCacheBuffer( "cache buffer", eSettingLevel::SYS, eSettingType::BOOL, "true" );
+static SettingParam workerThreadsNumber( "worker threads", eSettingLevel::APP, eSettingType::NUM_INT, "1" );
+static SettingParam logpath("logpath", eSettingLevel::USER, eSettingType::STRING, "/var/log/stf");
+
+void onInit( ISettingsConfig& settingsCfg ) {
+    settingsCfg.addParam( datastoreIPAddress );
+    settingsCfg.addParam( useCacheBuffer );
+    settingsCfg.addParam( workerThreadsNumber );
+    settingsCfg.addParam( logpath );
+}
+
 int main(int argc, const char* argv[]) {
-    cout << "count: " << argc << endl;
-    for( int i=0; i<argc; i++ ) {
-        cout << "ARG[" << i << "] '" << argv[i] << "'\r\n";
-    }
+    cout << Settings::get( "datastore" ).asStr() << endl;
+    cout << std::boolalpha << Settings::get( "cache buffer" ).asBool() << std::noboolalpha << endl;
+    cout << Settings::get( "worker threads" ).asInt() << endl;
+    cout << Settings::get( "logpath" ).asStr() << endl;
+
+
+
 }
 
 // vim: ts=4:sw=4:et:nowrap
