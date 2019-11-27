@@ -19,31 +19,12 @@
 using namespace std;
 using namespace stf;
 
-class SettingParam{
-public:    
-    SettingParam(string name, eSettingLevel levelValue, eSettingType typeValue, string value) {
 
-        paramName = name;
-
-        if (typeValue != STRING){
-        
-            
-        }else
-        {
-            
-        }
-        
-    }
-    
-private:
-    string paramName;
-    string paramValue;
-    union unionType{
-	    int 	iVal;
-	    bool	bVal;
-	    float	cVal;
-    };
-};
+// This should throw if current type is not this same as used method...
+bool    asBool( void ) const;
+int     asInt( void ) const;
+float   asFloat( void ) const;
+const   std::string& asStr( void ) const;
 
 // vim: ts=4:sw=4:et:nowrap
 /* EOF */
