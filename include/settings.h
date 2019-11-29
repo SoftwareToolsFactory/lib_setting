@@ -64,11 +64,6 @@ private:
     ParamType       _val;
 };
 
-class ISettingsConfig {
-public:
-    virtual void addParam( SettingParam& param ) = 0;
-};
-
 class Settings {
 public:
     static const SettingParam& get( const std::string& paramName );
