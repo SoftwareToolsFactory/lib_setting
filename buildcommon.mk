@@ -11,11 +11,17 @@
 ## |                   http://softwaretoolsfactory.com                       |
 ## '-------------------------------------------------------------------------'
 ## ----= Change log =---------------------------------------------------------
+##     2. 2019.11.30, 00:40 Nuroferatu   [+] [SCL-36] OS_NAME variable, that stores system name
 ##     1. 2019.11.11, 13:16 Nuroferatu   [+] Initial
 ##                                           * Definitions of vpath based of prjcfg VARIABLES
 ##                                           * Terminal colors for echo and echo as ${LOG}
 ## ---------------------------------------------------------------------------
 ## TODO: This should go to some global path, and be used as part of buld chain of STF applications
+OS_NAME := $(shell uname -s | tr A-Z a-z)
+## On FreeBSD Unix we need to rename OS_NAME
+ifeq (${OS_NAME},freebsd)
+  OS_NAME=unix
+endif
 include prjcfg.mk
 
 ## Sample usage:

@@ -11,13 +11,14 @@
 ## |                   http://softwaretoolsfactory.com                       |
 ## '-------------------------------------------------------------------------'
 ## ----= Change log =---------------------------------------------------------
-##     2. 2019.11.12, 22:40 Nuroferatu   [+] JIRA: SCL-7 - Add install dir variable
+##     3. 2019.11.30, 00:40 Nuroferatu   [+] SCL-36: OS_NAME used to separate build on many platforms
+##     2. 2019.11.12, 22:40 Nuroferatu   [+] SCL-7: Add install dir variable
 ##     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial - configuration for settings library
 ## ---------------------------------------------------------------------------
-TMP_DIR := tmp
+TMP_DIR := tmp/${OS_NAME}
 INC_DIR := include
 SRC_DIR := src
-BIN_DIR := bin
+BIN_DIR := bin/${OS_NAME}
 INSTALL_DIR := /usr/local
 
 LIB_NAME := settings
