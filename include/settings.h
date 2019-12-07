@@ -18,6 +18,7 @@
 #pragma once
 #ifndef __STF_SETTINGS_H__
 
+#include "isettingsconfig.h"
 #include <string>
 
 namespace stf {
@@ -37,7 +38,8 @@ enum eSettingType {
 
 class SettingParam {
 public:
-    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
+    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) \
+                :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
 
     eSettingLevel   getLevel( void ) const { return _level; }
     eSettingType    getType( void ) const { return _type; }
@@ -64,9 +66,12 @@ private:
     ParamType       _val;
 };
 
-class Settings {
+class Settings : public ISettingsConfig {
 public:
     static const SettingParam& get( const std::string& paramName );
+    void addParam( SettingParam& param );
+    void loadSysConfig( std::string appName );
+    void loadUsrConfig( std::string appName );
 };
 
 }; // ns:stf
