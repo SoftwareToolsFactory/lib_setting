@@ -70,8 +70,8 @@ class Settings : public ISettingsConfig {
 public:
     static const SettingParam& get( const std::string& paramName );
     void addParam( SettingParam& param );
-    void loadSysConfig( std::string appName );
-    void loadUsrConfig( std::string appName );
+    void loadSysConfig( const std::string& appName );
+    void loadUsrConfig( const std::string& appName );
 };
 
 }; // ns:stf
