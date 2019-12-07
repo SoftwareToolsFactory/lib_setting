@@ -22,11 +22,11 @@ void Settings::addParam( SettingParam& param ) {
     //Code here 
 }
 
-void Settings::loadSysConfig( const std::string& appName ){
+void Settings::loadSysConfig( const std::string& appName ) {
     //Code here
 }
 
-void Settings::loadUsrConfig( const std::string& appName ){
+void Settings::loadUsrConfig( const std::string& appName ) {
     //Code here
 }
 
