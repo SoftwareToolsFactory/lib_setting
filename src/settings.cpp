@@ -16,9 +16,19 @@
 #include <iostream>
 #include "settings.h"
 
-using namespace std;
 using namespace stf;
 
+void Settings::addParam( SettingParam& paramName) {
+    //Code here 
+}
+
+void Settings::loadSysConfig( std::string appName ){
+    //Code here
+}
+
+void Settings::loadUsrConfig( std::string appName ){
+    //Code here
+}
 
 // This should throw if current type is not this same as used method...
 bool    asBool( void ) const;
