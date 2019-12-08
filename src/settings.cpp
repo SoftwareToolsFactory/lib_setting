@@ -11,6 +11,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     2. 2019.12.08, 19:00 Non4ac       [+] SCL-25 Config file loader
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <cstring>
@@ -32,18 +33,30 @@
 using namespace std;
 using namespace stf;
 
+// This should throw if current type is not this same as used method...
+//bool    asBool( void ) const;
+//int     asInt( void ) const;
+//float   asFloat( void ) const;
+//const   std::string& asStr( void ) const;
+
+void Settings::addParam( SettingParam& param ) {
+    //Code here 
+}
+
+void Settings::loadSysConfig( const std::string& appName ) {
+    //Code here
+}
+
+void Settings::loadUsrConfig( const std::string& appName ) {
+    //Code here
+}
+
 #ifdef DEBUG
 #define ERROR_INFO() (cout << "ERROR: " << __FILE__ << ", " << __func__ << " : " << __LINE__ << endl)
 #endif
 
 template <class InputIterator, class T>
 InputIterator find(InputIterator first, InputIterator last, const T& val);
-
-// This should throw if current type is not this same as used method...
-//bool    asBool( void ) const;
-//int     asInt( void ) const;
-//float   asFloat( void ) const;
-//const   std::string& asStr( void ) const;
 
 static string ltrim(const string& s) {
 	return regex_replace(s, regex("^\\s+"), string(""));

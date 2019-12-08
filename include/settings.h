@@ -12,6 +12,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     3. 2019.12.08, 19:00 Non4ac       [+] SCL-25 Config file loader
 //     2  2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
@@ -20,6 +21,7 @@
 
 #include <list>
 #include <string>
+#include "isettingsconfig.h"
 
 namespace stf {
 
@@ -38,7 +40,8 @@ enum eSettingType {
 
 class SettingParam {
 public:
-    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
+    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) \
+                :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
 
     eSettingLevel   getLevel( void ) const { return _level; }
     eSettingType    getType( void ) const { return _type; }
@@ -65,9 +68,12 @@ private:
     ParamType       _val;
 };
 
-class Settings {
+class Settings : public ISettingsConfig {
 public:
     static const SettingParam& get( const std::string& paramName );
+    void addParam( SettingParam& param );
+    void loadSysConfig( const std::string& appName );
+    void loadUsrConfig( const std::string& appName );
 };
 
 }; // ns:stf

@@ -21,7 +21,7 @@
 
 namespace stf {
 
-class ISettingsConfig{
+class ISettingsConfig {
 
 public:
     virtual ~ISettingsConfig() = default;
