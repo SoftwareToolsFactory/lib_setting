@@ -18,6 +18,7 @@
 #pragma once
 #ifndef __STF_SETTINGS_H__
 
+#include <list>
 #include <string>
 
 namespace stf {
@@ -70,6 +71,28 @@ public:
 };
 
 }; // ns:stf
+
+
+class loadConfig
+{
+	typedef std::list <std::string> confList;
+	typedef const std::string cnstStr;
+
+private:
+	confList configFile;
+	const char* configListPaths[4] = { "../../", "/etc/stf/", "/etc/stf/appname/", '\0' };
+
+	loadConfig() {};
+	loadConfig(const loadConfig&);
+
+	bool readConfigFileContent(const char* pathWithFileName, confList* saveConfigContain);
+	bool getListOfConfigsInPathAndReadAll(const char* configsPath, confList* retListOfConfigFiles);
+	int readConfigFile(confList* retListOfConfigFiles);
+
+public:
+	static loadConfig& getInstance(void); //driven creation of instance
+	int getConfiguration(confList* configurationContent);
+};
 
 #endif /* ndef __STF_SETTINGS_H__ */
 

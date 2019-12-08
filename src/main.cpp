@@ -20,7 +20,7 @@ using namespace std;
 using namespace stf;
 
 // Sample params...
-static SettingParam datastoreIPAddress( "datastore", eSettingLevel::SYS, eSettingType::STRING, "127.0.0.1" );
+/*static SettingParam datastoreIPAddress( "datastore", eSettingLevel::SYS, eSettingType::STRING, "127.0.0.1" );
 static SettingParam useCacheBuffer( "cache buffer", eSettingLevel::SYS, eSettingType::BOOL, "true" );
 static SettingParam workerThreadsNumber( "worker threads", eSettingLevel::APP, eSettingType::NUM_INT, "1" );
 static SettingParam logpath("logpath", eSettingLevel::USER, eSettingType::STRING, "/var/log/stf");
@@ -30,15 +30,28 @@ void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( useCacheBuffer );
     settingsCfg.addParam( workerThreadsNumber );
     settingsCfg.addParam( logpath );
-}
+}*/
 
 int main(int argc, const char* argv[]) {
-    cout << Settings::get( "datastore" ).asStr() << endl;
+/*    cout << Settings::get( "datastore" ).asStr() << endl;
     cout << std::boolalpha << Settings::get( "cache buffer" ).asBool() << std::noboolalpha << endl;
     cout << Settings::get( "worker threads" ).asInt() << endl;
     cout << Settings::get( "logpath" ).asStr() << endl;
-
-
+*/
+    loadConfig& onlyLoadConfig = loadConfig::getInstance();
+    list <string> configurationFileContent;
+    if (onlyLoadConfig.getConfiguration(&configurationFileContent))
+    {
+        cout << "Configuration has been read successfully" << endl;
+        for (list<string>::iterator iter = configurationFileContent.begin(); iter != configurationFileContent.end(); iter++)
+        {
+            std::cout << *iter << endl;
+        }
+    }
+    else
+    {
+        cout << "No configuration files was found" << endl;
+    }
 
 }
 
