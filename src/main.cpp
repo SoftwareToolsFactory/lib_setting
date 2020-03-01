@@ -22,7 +22,7 @@ using namespace stf;
 
 // Sample params...
 static SettingParam datastoreIPAddress( "datastore", eSettingLevel::SYS, "127.0.0.1" );
-static SettingParam useCacheBuffer( "cache_buffer", eSettingLevel::SYS, eSettingType::BOOL, "true" );
+static SettingParam useCacheBuffer( "cache_buffer", eSettingLevel::SYS, eSettingType::BOOL, "TruE" );
 static SettingParam workerThreadsNumber( "worker_threads", eSettingLevel::APP, eSettingType::INT, "1" );
 static SettingParam timeRatio( "time ratio", eSettingLevel::APP, eSettingType::FLOAT, "1" );
 static SettingParam logpath("logpath", eSettingLevel::USER, eSettingType::STRING, "/var/log/stf");

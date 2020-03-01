@@ -11,10 +11,12 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     3. 2020.03.01, 15:40 Nuroferatu   [+] set of update methods to sync string with coresponding ParamType value
 //     2. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
 //                                       [*] asXXX mothods throw when invalid type is detected (casting is not supported by design)
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include "settings.h"
@@ -69,6 +71,39 @@ void SettingParam::riseInvalidTypeError( const std::string& method, const stf::e
     std::stringstream exceptionMsg;
     exceptionMsg << method << " failed for param: '" << _name << "' expected type '" << expectedType  << "' but param is '" << _type;
     throw std::runtime_error( exceptionMsg.str() );
+}
+
+// Update ParamType _val based on _strVal
+void SettingParam::updateVal( void ) {
+    switch (_type) {
+        case eSettingType::BOOL: updateBoolVal( _strVal ); break;
+        case eSettingType::INT: updateIntVal( _strVal ); break;
+        case eSettingType::FLOAT: updateFloatVal( _strVal ); break;
+        case eSettingType::STRING: break;
+        default:
+            throw std::runtime_error( "Unknown data type for param: '" + _name + "'" );
+    }
+}
+
+void SettingParam::updateBoolVal( std::string valAsStr ) {
+    if (_type != eSettingType::BOOL) 
+        riseInvalidTypeError( "updateBoolVal", eSettingType::BOOL );
+
+    std::transform( valAsStr.begin(), valAsStr.end(), valAsStr.begin(), std::tolower );
+    std::istringstream is( valAsStr );
+    is >> std::boolalpha >> _val.bVal;
+}
+
+void SettingParam::updateIntVal( std::string valAsStr ) {
+    if (_type != eSettingType::INT)
+        riseInvalidTypeError( "updateIntVal", eSettingType::INT );
+    _val.iVal = std::stoi( valAsStr );
+}
+
+void SettingParam::updateFloatVal( std::string valAsStr ) {
+    if (_type != eSettingType::FLOAT)
+        riseInvalidTypeError( "updateFloatVal", eSettingType::FLOAT );
+    _val.fVal = std::stof( valAsStr );
 }
 
 void Settings::addParam( SettingParam& param ) {

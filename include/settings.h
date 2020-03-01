@@ -12,6 +12,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     6. 2020.03.01, 15:40 Nuroferatu   [+] set of update methods to sync string with coresponding ParamType value
 //     5. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
 //     4. 2020.03.01, 13:45 Nuroferatu   [*] eSettingLevel & eSettingType are scoped
 //     3. 2020.03.01, 13:20 Nuroferatu   [+] Extra SettingParam ctors to make usage simpler
@@ -44,7 +45,9 @@ std::ostream& operator << ( std::ostream& out, stf::eSettingType type );
 
 class SettingParam {
 public:
-    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) : _name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
+    // TODO: This ctor should be hiden, to prevent some wild usage of it :)
+    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) : _name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal( defaultVal ) { updateVal(); }
+
     SettingParam( std::string name, eSettingLevel level, const char* defaultVal ) : SettingParam( name, level, eSettingType::STRING, std::string( defaultVal ) ) {}
     SettingParam( std::string name, eSettingLevel level, bool defaultVal ) : SettingParam( name, level, eSettingType::BOOL, std::string( (defaultVal ? "true" : "false") ) ) {}
     SettingParam( std::string name, eSettingLevel level, int defaultVal ) : SettingParam( name, level, eSettingType::INT, std::to_string(defaultVal) ) {}
@@ -55,6 +58,9 @@ public:
     eSettingType        getType( void ) const { return _type; }
     const std::string&  getDefaultVal( void ) const { return _defaultVal; }
 
+    void setVal( const std::string& strVal ) { /* Not implemented */ }
+    void resetToDefault( void ) { setVal( _defaultVal ); }
+
     bool    asBool( void ) const;
     int     asInt( void ) const;
     float   asFloat( void ) const;
@@ -62,6 +68,10 @@ public:
 
 private:
     void riseInvalidTypeError( const std::string& method, const stf::eSettingType expectedType ) const;
+    void updateVal( void );
+    void updateBoolVal( std::string valAsStr );
+    void updateIntVal( std::string valAsStr );
+    void updateFloatVal( std::string valAsStr );
 
     union ParamType {
         ParamType() : iVal( 0 ) {}
