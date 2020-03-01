@@ -12,6 +12,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     3  2020.03.01, 13:20 Nuroferatu   [+] Extra SettingParam ctors to make usage simpler
 //     2  2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
@@ -43,6 +44,11 @@ class SettingParam {
 public:
     SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) \
                 :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
+
+    SettingParam( std::string name, eSettingLevel level, const char* defaultVal ) : SettingParam( name, level, eSettingType::STRING, std::string( defaultVal ) ) {}
+    SettingParam( std::string name, eSettingLevel level, bool defaultVal ) : SettingParam( name, level, eSettingType::BOOL, std::string( (defaultVal ? "true" : "false") ) ) {}
+    SettingParam( std::string name, eSettingLevel level, int defaultVal ) {}
+    SettingParam( std::string name, eSettingLevel level, float defaultVal ) {}
 
     const std::string&  getName( void ) const { return _name; }
     eSettingLevel       getLevel( void ) const { return _level; }

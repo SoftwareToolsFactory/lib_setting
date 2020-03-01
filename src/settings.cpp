@@ -18,7 +18,7 @@
 
 using namespace stf;
 
-std::ostream& stf::operator << ( std::ostream& out, stf::eSettingLevel level ) {
+std::ostream& stf::operator << ( std::ostream& out, eSettingLevel level ) {
     switch (level) {
         case eSettingLevel::APP: out << "APP"; break;
         case eSettingLevel::SYS: out << "SYS"; break;
@@ -27,7 +27,7 @@ std::ostream& stf::operator << ( std::ostream& out, stf::eSettingLevel level ) {
     return out;
 }
 
-std::ostream& stf::operator << ( std::ostream& out, stf::eSettingType type ) {
+std::ostream& stf::operator << ( std::ostream& out, eSettingType type ) {
     switch (type) {
         case eSettingType::BOOL: out << "BOOL"; break;
         case eSettingType::INT: out << "INT"; break;
