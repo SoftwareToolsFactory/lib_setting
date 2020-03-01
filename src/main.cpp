@@ -11,7 +11,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
-//     2. 2020.03.01, 15:00 Nuroferatu   [+] Bool param tests
+//     2. 2020.03.01, 15:00 Nuroferatu   [+] Bool/ini/float param tests
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <iostream>
@@ -56,6 +56,20 @@ void boolTestVal( const char* comment, const SettingParam& param ) {
     cout << "Val: " << std::boolalpha << param.asBool() << std::noboolalpha << endl;
 }
 
+void intTestVal( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' default = '" << param.getDefaultVal() << "'\n";
+    cout << "Val: " << param.asInt() << endl;
+}
+
+void floatTestVal( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' default = '" << param.getDefaultVal() << "'\n";
+    cout << "Val: " << param.asFloat() << endl;
+}
+
 void boolTestException( const char* comment, const SettingParam& param ) {
     cout << "-------------------------------------------------\n";
     cout << "Test '" << comment << "'\n";
@@ -79,14 +93,73 @@ void boolTestException( const char* comment, const SettingParam& param ) {
     }
 }
 
+void intTestException( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' type of '" << param.getType() << "'\n";
+
+    cout << "Get asString() = " << param.asStr() << endl;   // No exception
+    cout << "Get asInt() = " << param.asInt() << endl;      // No exception
+
+    try {
+        cout << "Get asBool() = " << param.asBool() << " [TEST FAILED]" << endl;
+    }
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
+    }
+
+    try {
+        cout << "Get asFloat() = " << param.asFloat() << " [TEST FAILED]" << endl;
+    }
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
+    }
+}
+
+void floatTestException( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' type of '" << param.getType() << "'\n";
+
+    cout << "Get asString() = " << param.asStr() << endl;   // No exception
+    cout << "Get asFloat() = " << param.asFloat() << endl;      // No exception
+
+    try {
+        cout << "Get asBool() = " << param.asBool() << " [TEST FAILED]" << endl;
+    }
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
+    }
+
+    try {
+        cout << "Get asInt() = " << param.asInt() << " [TEST FAILED]" << endl;
+    }
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
+    }
+}
+
 int main(int argc, const char* argv[]) {
-    onInit( settings );
+    try {
+        onInit( settings );
 
-    boolTestVal( "Test bool true", boolTestTrue );
-    boolTestVal( "Test bool false", boolTestFalse );
-    boolTestVal( "useCacheBuffer", useCacheBuffer );
+        boolTestVal( "Test bool true", boolTestTrue );
+        boolTestVal( "Test bool false", boolTestFalse );
+        boolTestVal( "useCacheBuffer", useCacheBuffer );
 
-    boolTestException( "Exception test asInt/asFloat must fail", boolTestTrue );
+        intTestVal( "intTest", intTest );
+        floatTestVal( "floatTest", floatTest );
+
+        boolTestException( "Exception test asInt/asFloat must fail", boolTestTrue );
+        intTestException( "Exception test asBool/asFloat must fail", intTest );
+        floatTestException( "Exception test asBool/asInt must fail", floatTest );
+    }
+    catch (const std::exception & e) {
+        cout << "Unhandled exception: " << e.what() << endl;
+    }
+    catch (...) {
+        cout << "Unhandled UNKNOWN exception" << endl;
+    }
 }
 
 // vim: ts=4:sw=4:et:nowrap

@@ -61,7 +61,7 @@ public:
     const std::string& asStr( void ) const;
 
 private:
-    void riseInvalidTypeError( const stf::eSettingType expectedType ) const;
+    void riseInvalidTypeError( const std::string& method, const stf::eSettingType expectedType ) const;
 
     union ParamType {
         ParamType() : iVal( 0 ) {}

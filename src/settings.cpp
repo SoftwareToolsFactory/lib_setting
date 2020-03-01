@@ -42,21 +42,21 @@ std::ostream& stf::operator << ( std::ostream& out, eSettingType type ) {
 
 bool SettingParam::asBool( void ) const {
     if (_type != eSettingType::BOOL)
-        riseInvalidTypeError( eSettingType::BOOL );
+        riseInvalidTypeError( "asBool", eSettingType::BOOL );
 
     return _val.bVal;
 }
 
 int SettingParam::asInt( void ) const {
     if (_type != eSettingType::INT)
-        riseInvalidTypeError( eSettingType::INT );
+        riseInvalidTypeError( "asInt", eSettingType::INT );
 
     return _val.iVal;
 }
 
 float SettingParam::asFloat( void ) const {
     if (_type != eSettingType::FLOAT)
-        riseInvalidTypeError( eSettingType::FLOAT );
+        riseInvalidTypeError( "asFloat", eSettingType::FLOAT );
 
     return _val.fVal;
 }
@@ -65,9 +65,9 @@ const std::string& SettingParam::asStr( void ) const {
     return _strVal;
 }
 
-void SettingParam::riseInvalidTypeError( const stf::eSettingType expectedType ) const {
+void SettingParam::riseInvalidTypeError( const std::string& method, const stf::eSettingType expectedType ) const {
     std::stringstream exceptionMsg;
-    exceptionMsg << "Param: '" << _name << "' type is '" << _type << "' while expected '" << expectedType << "'";
+    exceptionMsg << method << " failed for param: '" << _name << "' expected type '" << expectedType  << "' but param is '" << _type;
     throw std::runtime_error( exceptionMsg.str() );
 }
 
