@@ -12,8 +12,9 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
-//     3  2020.03.01, 13:20 Nuroferatu   [+] Extra SettingParam ctors to make usage simpler
-//     2  2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
+//     4. 2020.03.01, 13:45 Nuroferatu   [*] eSettingLevel & eSettingType are scoped
+//     3. 2020.03.01, 13:20 Nuroferatu   [+] Extra SettingParam ctors to make usage simpler
+//     2. 2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #pragma once
@@ -23,14 +24,14 @@
 
 namespace stf {
 
-enum eSettingLevel {
+enum class eSettingLevel {
     APP,        // Application level setting is defined in application and can not be modified by config file
     SYS,        // System level can be modyfied only by config file that cames from system directory
     USER        // User level can be modified by user and system configuration files
 };
 
 
-enum eSettingType {
+enum class eSettingType {
     BOOL,
     INT,
     FLOAT,
@@ -42,18 +43,16 @@ std::ostream& operator << ( std::ostream& out, stf::eSettingType type );
 
 class SettingParam {
 public:
-    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) \
-                :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
-
+    SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) : _name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
     SettingParam( std::string name, eSettingLevel level, const char* defaultVal ) : SettingParam( name, level, eSettingType::STRING, std::string( defaultVal ) ) {}
     SettingParam( std::string name, eSettingLevel level, bool defaultVal ) : SettingParam( name, level, eSettingType::BOOL, std::string( (defaultVal ? "true" : "false") ) ) {}
-    SettingParam( std::string name, eSettingLevel level, int defaultVal ) {}
-    SettingParam( std::string name, eSettingLevel level, float defaultVal ) {}
+    SettingParam( std::string name, eSettingLevel level, int defaultVal ) : SettingParam( name, level, eSettingType::INT, std::to_string(defaultVal) ) {}
+    SettingParam( std::string name, eSettingLevel level, float defaultVal )  : SettingParam( name, level, eSettingType::FLOAT, std::to_string(defaultVal) ) {}
 
     const std::string&  getName( void ) const { return _name; }
     eSettingLevel       getLevel( void ) const { return _level; }
     eSettingType        getType( void ) const { return _type; }
-    const std::string&  getDefaultVal( void ) { return _defaultVal; }
+    const std::string&  getDefaultVal( void ) const { return _defaultVal; }
 
     bool    asBool( void ) const;
     int     asInt( void ) const;
