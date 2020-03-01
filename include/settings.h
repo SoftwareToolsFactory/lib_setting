@@ -18,7 +18,6 @@
 #pragma once
 #ifndef __STF_SETTINGS_H__
 
-#include "isettingsconfig.h"
 #include <string>
 
 namespace stf {
@@ -29,47 +28,61 @@ enum eSettingLevel {
     USER        // User level can be modified by user and system configuration files
 };
 
+
 enum eSettingType {
     BOOL,
-    NUM_INT,
-    NUM_FLOAT,
+    INT,
+    FLOAT,
     STRING
 };
+
+std::ostream& operator << ( std::ostream& out, stf::eSettingLevel level );
+std::ostream& operator << ( std::ostream& out, stf::eSettingType type );
 
 class SettingParam {
 public:
     SettingParam( std::string name, eSettingLevel level, eSettingType type, std::string defaultVal ) \
                 :_name( name ), _level( level ), _type( type ), _defaultVal( defaultVal ), _strVal(defaultVal) {}
 
-    eSettingLevel   getLevel( void ) const { return _level; }
-    eSettingType    getType( void ) const { return _type; }
+    const std::string&  getName( void ) const { return _name; }
+    eSettingLevel       getLevel( void ) const { return _level; }
+    eSettingType        getType( void ) const { return _type; }
+    const std::string&  getDefaultVal( void ) { return _defaultVal; }
 
     bool    asBool( void ) const;
     int     asInt( void ) const;
     float   asFloat( void ) const;
-    const   std::string& asStr( void ) const;
+    const std::string& asStr( void ) const;
 
 private:
     union ParamType {
         ParamType() : iVal( 0 ) {}
-        int 	iVal;
-        bool	bVal;
-        float	cVal;
+        int     iVal;
+        bool    bVal;
+        float   fVal;
+        char    cVal;
     };
 
     eSettingLevel   _level;
     eSettingType    _type;
+    ParamType       _val;
 
     std::string     _name;
     std::string     _strVal;
     std::string     _defaultVal;
-    ParamType       _val;
+};
+
+class ISettingsConfig {
+public:
+    virtual ~ISettingsConfig() = default;
+    virtual void addParam( SettingParam& param ) = 0;
 };
 
 class Settings : public ISettingsConfig {
 public:
-    static const SettingParam& get( const std::string& paramName );
+    static const SettingParam* get( const std::string& paramName );
     void addParam( SettingParam& param );
+
     void loadSysConfig( const std::string& appName );
     void loadUsrConfig( const std::string& appName );
 };

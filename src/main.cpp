@@ -21,8 +21,9 @@ using namespace stf;
 
 // Sample params...
 static SettingParam datastoreIPAddress( "datastore", eSettingLevel::SYS, eSettingType::STRING, "127.0.0.1" );
-static SettingParam useCacheBuffer( "cache buffer", eSettingLevel::SYS, eSettingType::BOOL, "true" );
-static SettingParam workerThreadsNumber( "worker threads", eSettingLevel::APP, eSettingType::NUM_INT, "1" );
+static SettingParam useCacheBuffer( "cache_buffer", eSettingLevel::SYS, eSettingType::BOOL, "true" );
+static SettingParam workerThreadsNumber( "worker_threads", eSettingLevel::APP, eSettingType::INT, "1" );
+static SettingParam timeRatio( "time ratio", eSettingLevel::APP, eSettingType::FLOAT, "1" );
 static SettingParam logpath("logpath", eSettingLevel::USER, eSettingType::STRING, "/var/log/stf");
 
 void onInit( ISettingsConfig& settingsCfg ) {
@@ -32,14 +33,14 @@ void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( logpath );
 }
 
+Settings settings;
+
 int main(int argc, const char* argv[]) {
-    cout << Settings::get( "datastore" ).asStr() << endl;
-    cout << std::boolalpha << Settings::get( "cache buffer" ).asBool() << std::noboolalpha << endl;
-    cout << Settings::get( "worker threads" ).asInt() << endl;
-    cout << Settings::get( "logpath" ).asStr() << endl;
-
-
-
+    onInit( settings );
+    //cout << Settings::get( "datastore" ).asStr() << endl;
+    //cout << std::boolalpha << Settings::get( "cache buffer" ).asBool() << std::noboolalpha << endl;
+    //cout << Settings::get( "worker threads" ).asInt() << endl;
+    //cout << Settings::get( "logpath" ).asStr() << endl;
 }
 
 // vim: ts=4:sw=4:et:nowrap
