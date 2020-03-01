@@ -21,9 +21,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\settings.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{F4974F1E-F5D4-4CBA-91ED-622CBFA08DE4}</ProjectGuid>
