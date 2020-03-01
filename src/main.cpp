@@ -48,8 +48,44 @@ void onInit( ISettingsConfig& settingsCfg ) {
 
 Settings settings;
 
+void boolTestVal( const char* comment, const SettingParam& param ) {
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' default = '" << param.getDefaultVal() << "'\n";
+    cout << "Val: " << std::boolalpha << param.asBool() << std::noboolalpha << endl;
+}
+
+void boolTestException( const char* comment, const SettingParam& param ) {
+    cout << "Test '" << comment << "'\n";
+    cout << "Name: '" << param.getName() << "' type of '" << param.getType() << "'\n";
+
+    cout << "Get asString() = " << param.asStr() << endl;   // No exception
+    cout << "Get asBool() = " << param.asBool() << endl;    // No exception
+
+    try {
+        cout << "Get asInt() = " << param.asInt();  // Must throw - invalid operation
+        cout << " FAILED TEST!" << endl;
+    }
+    catch (std::exception & e) {
+        cout << " Exceoption " << e.what() << endl;
+    }
+
+    try {
+        cout << "Get asFloat() = " << param.asFloat();  // Must throw - invalid operation
+        cout << " FAILED TEST!" << endl;
+    }
+    catch (std::exception & e) {
+        cout << " Exceoption " << e.what() << endl;
+    }
+}
+
 int main(int argc, const char* argv[]) {
     onInit( settings );
+
+    boolTestVal( "Test bool true", boolTestTrue );
+    boolTestVal( "Test bool false", boolTestFalse );
+    boolTestVal( "useCacheBuffer", useCacheBuffer );
+
+    boolTestException( "", boolTestTrue );
 }
 
 // vim: ts=4:sw=4:et:nowrap
