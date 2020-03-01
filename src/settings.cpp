@@ -11,9 +11,12 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     2. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
+//                                       [*] asXXX mothods throw when invalid type is detected (casting is not supported by design)
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <iostream>
+#include <sstream>
 #include "settings.h"
 
 using namespace stf;
@@ -38,22 +41,34 @@ std::ostream& stf::operator << ( std::ostream& out, eSettingType type ) {
 }
 
 bool SettingParam::asBool( void ) const {
-    // Throw if type is not BOOL
+    if (_type != eSettingType::BOOL)
+        riseInvalidTypeError( eSettingType::BOOL );
+
     return _val.bVal;
 }
 
 int SettingParam::asInt( void ) const {
-    // Throw if type is not INT
+    if (_type != eSettingType::INT)
+        riseInvalidTypeError( eSettingType::INT );
+
     return _val.iVal;
 }
 
 float SettingParam::asFloat( void ) const {
-    // Throw if type is not FLOAT
+    if (_type != eSettingType::FLOAT)
+        riseInvalidTypeError( eSettingType::FLOAT );
+
     return _val.fVal;
 }
 
 const std::string& SettingParam::asStr( void ) const {
     return _strVal;
+}
+
+void SettingParam::riseInvalidTypeError( const stf::eSettingType expectedType ) const {
+    std::stringstream exceptionMsg;
+    exceptionMsg << "Param: '" << _name << "' type is '" << _type << "' while expected '" << expectedType << "'";
+    throw std::runtime_error( exceptionMsg.str() );
 }
 
 void Settings::addParam( SettingParam& param ) {

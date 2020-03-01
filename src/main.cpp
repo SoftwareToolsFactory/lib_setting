@@ -11,6 +11,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     2. 2020.03.01, 15:00 Nuroferatu   [+] Bool param tests
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <iostream>
@@ -49,12 +50,14 @@ void onInit( ISettingsConfig& settingsCfg ) {
 Settings settings;
 
 void boolTestVal( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
     cout << "Test '" << comment << "'\n";
     cout << "Name: '" << param.getName() << "' default = '" << param.getDefaultVal() << "'\n";
     cout << "Val: " << std::boolalpha << param.asBool() << std::noboolalpha << endl;
 }
 
 void boolTestException( const char* comment, const SettingParam& param ) {
+    cout << "-------------------------------------------------\n";
     cout << "Test '" << comment << "'\n";
     cout << "Name: '" << param.getName() << "' type of '" << param.getType() << "'\n";
 
@@ -62,19 +65,17 @@ void boolTestException( const char* comment, const SettingParam& param ) {
     cout << "Get asBool() = " << param.asBool() << endl;    // No exception
 
     try {
-        cout << "Get asInt() = " << param.asInt();  // Must throw - invalid operation
-        cout << " FAILED TEST!" << endl;
+        cout << "Get asInt() = " << param.asInt() << " [TEST FAILED]" << endl;
     }
-    catch (std::exception & e) {
-        cout << " Exceoption " << e.what() << endl;
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
     }
 
     try {
-        cout << "Get asFloat() = " << param.asFloat();  // Must throw - invalid operation
-        cout << " FAILED TEST!" << endl;
+        cout << "Get asFloat() = " << param.asFloat() << " [TEST FAILED]" << endl;
     }
-    catch (std::exception & e) {
-        cout << " Exceoption " << e.what() << endl;
+    catch (const std::exception& e) {
+        cout << "* Exception: " << e.what() << " [TEST SUCCESS]" << endl;
     }
 }
 
@@ -85,7 +86,7 @@ int main(int argc, const char* argv[]) {
     boolTestVal( "Test bool false", boolTestFalse );
     boolTestVal( "useCacheBuffer", useCacheBuffer );
 
-    boolTestException( "", boolTestTrue );
+    boolTestException( "Exception test asInt/asFloat must fail", boolTestTrue );
 }
 
 // vim: ts=4:sw=4:et:nowrap

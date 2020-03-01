@@ -12,6 +12,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     5. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
 //     4. 2020.03.01, 13:45 Nuroferatu   [*] eSettingLevel & eSettingType are scoped
 //     3. 2020.03.01, 13:20 Nuroferatu   [+] Extra SettingParam ctors to make usage simpler
 //     2. 2019.11.14, 21:10 Vasile       [+] Added eSettingLevel & eSettingType
@@ -60,6 +61,8 @@ public:
     const std::string& asStr( void ) const;
 
 private:
+    void riseInvalidTypeError( const stf::eSettingType expectedType ) const;
+
     union ParamType {
         ParamType() : iVal( 0 ) {}
         int     iVal;
