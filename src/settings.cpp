@@ -148,6 +148,35 @@ std::size_t Settings::findComment( const std::string& configLine ) {
     return configLine.find( COMMENT_CHAR, 0 );
 }
 
+std::string Settings::extractParamName( const std::string& configLine ) {
+    std::string     retStr;
+    if (!configLine.empty()) {
+        std::size_t pos = configLine.find( '=' );
+        if (pos != std::string::npos) {
+            retStr = configLine.substr( 0, pos );
+            trimStr( retStr );
+        }
+    }
+    return retStr;
+}
+
+std::string Settings::extractParamValue( const std::string& configLine ) {
+    std::string     retStr;
+    if (!configLine.empty()) {
+        std::size_t pos = configLine.find( '=' );
+        if (pos != std::string::npos) {
+            retStr = configLine.substr( pos+1 );
+            trimStr( retStr );
+        }
+    }
+    return retStr;
+}
+
+void Settings::trimStr( std::string& str ) {
+    str.erase( str.begin(), std::find_if( str.begin(), str.end(), [](int ch) { return !std::isspace(ch); } ) );
+    str.erase( std::find_if( str.rbegin(), str.rend(), [](int ch) { return !std::isspace(ch); } ).base(), str.end() );
+}
+
 void Settings::loadConfig( const std::string& path, stf::eSettingLevel level ) {
 
     std::ifstream inputFile( path );
@@ -157,6 +186,8 @@ void Settings::loadConfig( const std::string& path, stf::eSettingLevel level ) {
     }
 
     std::string line;
+    int linePos = 1;
+
     while (std::getline( inputFile, line )) {
         std::cout << line << std::endl;
         std::size_t commentPos = findComment( line );
@@ -164,9 +195,19 @@ void Settings::loadConfig( const std::string& path, stf::eSettingLevel level ) {
             line = line.substr( 0, commentPos );
 
         if (!line.empty()) {
+            std::string     paramName = extractParamName( line );
+            std::string     paramVal = extractParamValue( line );
 
+            if (paramExist( paramName )) {
+                std::cout << "[DBG] Param: '" << paramName << "' Exits - new val to set = '" << paramVal << "' current val = '" << getParam( paramName ).asStr() << "'\n";
+                getParam( paramName ).setVal( paramVal );
+            }
+            else
+                std::cout << "Param '" << paramName << "' does not exist - '" << path << "' at line " << linePos << std::endl;
         }
+        linePos++;
     }
+    inputFile.close();
 }
 
 // vim: ts=4:sw=4:et:nowrap

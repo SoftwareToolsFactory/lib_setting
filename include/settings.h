@@ -113,6 +113,10 @@ public:
 
 private:
     std::size_t findComment( const std::string& configLine );
+    std::string extractParamName( const std::string& configLine );
+    std::string extractParamValue( const std::string& configLine );
+    void trimStr( std::string& str );
+
     void loadConfig( const std::string& path, stf::eSettingLevel level );
 };
 
