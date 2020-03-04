@@ -55,6 +55,16 @@ std::ostream& stf::operator << ( std::ostream& out, eSettingType type ) {
 }
 
 // ---------------------------------------------------------------------------
+// setVal
+//
+// Set _strVal and updates variable based on SettingParam type.
+// ---------------------------------------------------------------------------
+void SettingParam::setVal( const std::string& strVal ) {
+    _strVal = strVal;
+    updateVal();
+}
+
+// ---------------------------------------------------------------------------
 // asBool
 //
 // Return stored value as bool

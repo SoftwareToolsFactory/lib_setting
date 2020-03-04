@@ -60,12 +60,12 @@ public:
     eSettingType        getType( void ) const { return _type; }
     const std::string&  getDefaultVal( void ) const { return _defaultVal; }
 
-    void setVal( const std::string& strVal ) { /* Not implemented */ }
+    void setVal( const std::string& strVal );
     void resetToDefault( void ) { setVal( _defaultVal ); }
 
-    bool    asBool( void ) const;
-    int     asInt( void ) const;
-    float   asFloat( void ) const;
+    bool asBool( void ) const;
+    int asInt( void ) const;
+    float asFloat( void ) const;
     const std::string& asStr( void ) const;
 
 private:
