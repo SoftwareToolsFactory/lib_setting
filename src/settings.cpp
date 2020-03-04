@@ -18,6 +18,7 @@
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include "settings.h"
@@ -71,7 +72,9 @@ const std::string& SettingParam::asStr( void ) const {
 void SettingParam::riseInvalidTypeError( const std::string& method, const stf::eSettingType expectedType ) const {
     std::stringstream exceptionMsg;
     exceptionMsg << method << " failed for param: '" << _name << "' expected type '" << expectedType  << "' but param is '" << _type;
-    throw std::runtime_error( exceptionMsg.str() );
+    std::string msg = exceptionMsg.str();
+    std::cerr << "Error: " << msg << std::endl;
+    throw std::runtime_error( msg );
 }
 
 // Update ParamType _val based on _strVal
@@ -131,9 +134,39 @@ void Settings::addParam( SettingParam& param ) {
 }
 
 void Settings::loadSysConfig( const std::string& appName ) {
+    const std::string   SYS_FILE = "..\\sample_sys_config.cfg";
+    loadConfig( SYS_FILE, eSettingLevel::SYS );
 }
 
 void Settings::loadUsrConfig( const std::string& appName ) {
+    const std::string   USER_FILE = "..\\sample_user_config.cfg";
+    loadConfig( USER_FILE, eSettingLevel::USER );
+}
+
+std::size_t Settings::findComment( const std::string& configLine ) {
+    constexpr char COMMENT_CHAR = '#';
+    return configLine.find( COMMENT_CHAR, 0 );
+}
+
+void Settings::loadConfig( const std::string& path, stf::eSettingLevel level ) {
+
+    std::ifstream inputFile( path );
+    if (!inputFile.is_open()) {
+        std::cerr << "Failed to open: '" << path << "'\n";
+        return;
+    }
+
+    std::string line;
+    while (std::getline( inputFile, line )) {
+        std::cout << line << std::endl;
+        std::size_t commentPos = findComment( line );
+        if (commentPos != std::string::npos)
+            line = line.substr( 0, commentPos );
+
+        if (!line.empty()) {
+
+        }
+    }
 }
 
 // vim: ts=4:sw=4:et:nowrap

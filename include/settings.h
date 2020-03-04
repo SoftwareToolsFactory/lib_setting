@@ -110,6 +110,10 @@ public:
 
     void loadSysConfig( const std::string& appName );
     void loadUsrConfig( const std::string& appName );
+
+private:
+    std::size_t findComment( const std::string& configLine );
+    void loadConfig( const std::string& path, stf::eSettingLevel level );
 };
 
 }; // ns:stf

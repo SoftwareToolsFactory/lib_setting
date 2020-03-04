@@ -33,6 +33,8 @@ static SettingParam strTest( "str_test", eSettingLevel::USER, "some string value
 static SettingParam floatTest( "float_test", eSettingLevel::USER, 1.234f );
 static SettingParam intTest( "int_test", eSettingLevel::USER, 1234 );
 
+Settings settings;
+
 void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( datastoreIPAddress );
     settingsCfg.addParam( datastoreIPAddress );
@@ -46,9 +48,9 @@ void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( strTest );
     settingsCfg.addParam( floatTest );
     settingsCfg.addParam( intTest );
-}
 
-Settings settings;
+    settings.loadSysConfig( "" );
+}
 
 void boolTestVal( const char* comment, const SettingParam& param ) {
     cout << "-------------------------------------------------\n";
