@@ -35,6 +35,7 @@ static SettingParam intTest( "int_test", eSettingLevel::USER, 1234 );
 
 void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( datastoreIPAddress );
+    settingsCfg.addParam( datastoreIPAddress );
     settingsCfg.addParam( useCacheBuffer );
     settingsCfg.addParam( workerThreadsNumber );
     settingsCfg.addParam( timeRatio );
@@ -142,6 +143,8 @@ void floatTestException( const char* comment, const SettingParam& param ) {
 int main(int argc, const char* argv[]) {
     try {
         onInit( settings );
+
+        cout << settings.getParam( "datastore" ).asStr() << endl;
 
         boolTestVal( "Test bool true", boolTestTrue );
         boolTestVal( "Test bool false", boolTestFalse );

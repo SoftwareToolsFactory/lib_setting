@@ -12,6 +12,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     7. 2020.03.04, 16:20 Nuroferatu   [+] Storing param in map with helper functions
 //     6. 2020.03.01, 15:40 Nuroferatu   [+] set of update methods to sync string with coresponding ParamType value
 //     5. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
 //     4. 2020.03.01, 13:45 Nuroferatu   [*] eSettingLevel & eSettingType are scoped
@@ -22,6 +23,7 @@
 #pragma once
 #ifndef __STF_SETTINGS_H__
 
+#include <map>
 #include <string>
 
 namespace stf {
@@ -93,13 +95,18 @@ private:
 class ISettingsConfig {
 public:
     virtual ~ISettingsConfig() = default;
+    virtual bool paramExist( const std::string& paramName ) = 0;
+    virtual SettingParam& getParam( const std::string& paramName ) = 0;
     virtual void addParam( SettingParam& param ) = 0;
 };
 
 class Settings : public ISettingsConfig {
+    std::map<std::string, stf::SettingParam*>   _paramMap;
+
 public:
-    static const SettingParam* get( const std::string& paramName );
-    void addParam( SettingParam& param );
+    bool paramExist( const std::string& paramName ) override;
+    SettingParam& getParam( const std::string& paramName ) override;
+    void addParam( SettingParam& param ) override;
 
     void loadSysConfig( const std::string& appName );
     void loadUsrConfig( const std::string& appName );

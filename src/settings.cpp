@@ -11,6 +11,7 @@
 // |                   http://softwaretoolsfactory.com                       |
 // '-------------------------------------------------------------------------'
 // ----= Change log =---------------------------------------------------------
+//     4. 2020.03.04, 16:20 Nuroferatu   [+] Storing param in map with helper functions
 //     3. 2020.03.01, 15:40 Nuroferatu   [+] set of update methods to sync string with coresponding ParamType value
 //     2. 2020.03.01, 15:00 Nuroferatu   [+] riseInvalidTypeError - throws runtime_error with type info
 //                                       [*] asXXX mothods throw when invalid type is detected (casting is not supported by design)
@@ -106,7 +107,26 @@ void SettingParam::updateFloatVal( std::string valAsStr ) {
     _val.fVal = std::stof( valAsStr );
 }
 
+bool Settings::paramExist( const std::string& paramName ) {
+    auto item = _paramMap.find( paramName );
+    return item != _paramMap.end();
+}
+
+SettingParam& Settings::getParam( const std::string& paramName ) {
+    auto item = _paramMap.find( paramName );
+    if (item != _paramMap.end())
+        return *item->second;
+
+    throw std::runtime_error( "Settings::getParam - param '" + paramName + "' does not exist" );
+}
+
 void Settings::addParam( SettingParam& param ) {
+    if (paramExist( param.getName() )) {
+        std::cout << "Param '" << param.getName() << "' already registered" << std::endl;
+        return;
+    }
+    _paramMap.insert( std::make_pair(param.getName(), &param) );
+
     std::cout << "Settings::addparam '" << param.getName() << "' of type '" << param.getType() << "' and level '" << param.getLevel() << "' with default value of '" << param.getDefaultVal() << "'\n";
 }
 
