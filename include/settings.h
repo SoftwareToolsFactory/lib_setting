@@ -83,13 +83,12 @@ private:
         char    cVal;
     };
 
+    std::string     _name;
     eSettingLevel   _level;
     eSettingType    _type;
-    ParamType       _val;
-
-    std::string     _name;
-    std::string     _strVal;
     std::string     _defaultVal;
+    std::string     _strVal;
+    ParamType       _val;
 };
 
 class ISettingsConfig {

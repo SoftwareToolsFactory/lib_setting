@@ -18,6 +18,7 @@
 //     1. 2019.11.11, 13:00 Nuroferatu   [+] Initial
 // ---------------------------------------------------------------------------
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -148,7 +149,7 @@ void SettingParam::updateBoolVal( std::string valAsStr ) {
     if (_type != eSettingType::BOOL) 
         riseInvalidTypeError( "updateBoolVal", eSettingType::BOOL );
 
-    std::transform( valAsStr.begin(), valAsStr.end(), valAsStr.begin(), std::tolower );
+    std::transform( valAsStr.begin(), valAsStr.end(), valAsStr.begin(), [](unsigned char c){ return std::tolower(c); } );
     std::istringstream is( valAsStr );
     is >> std::boolalpha >> _val.bVal;
 }
