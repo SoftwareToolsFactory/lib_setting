@@ -217,7 +217,7 @@ void Settings::addParam( SettingParam& param ) {
 // Reads System level configuration from system directory
 // ---------------------------------------------------------------------------
 void Settings::loadSysConfig( const std::string& appName ) {
-    const std::string   SYS_FILE = "..\\sample_sys_config.cfg";
+    const std::string   SYS_FILE = "../sample_sys_config.cfg";
     loadConfig( SYS_FILE, eSettingLevel::SYS );
 }
 
@@ -227,7 +227,7 @@ void Settings::loadSysConfig( const std::string& appName ) {
 // Reads User level configuration from user home directory
 // ---------------------------------------------------------------------------
 void Settings::loadUsrConfig( const std::string& appName ) {
-    const std::string   USER_FILE = "..\\sample_user_config.cfg";
+    const std::string   USER_FILE = "../sample_user_config.cfg";
     loadConfig( USER_FILE, eSettingLevel::USER );
 }
 
@@ -312,7 +312,25 @@ void Settings::loadConfig( const std::string& path, stf::eSettingLevel level ) {
 
             if (paramExist( paramName )) {
                 std::cout << "[DBG] Param: '" << paramName << "' Exits - new val to set = '" << paramVal << "' current val = '" << getParam( paramName ).asStr() << "'\n";
-                getParam( paramName ).setVal( paramVal );
+                stf::SettingParam& sp = getParam( paramName );
+
+                // If loading system level config, then accept SYS and USER params
+                // If loading user level config, then accept only USER params
+                switch (level) {
+                    case eSettingLevel::SYS:
+                        if ((sp.getLevel() == eSettingLevel::SYS) || (sp.getLevel() == eSettingLevel::USER))
+                            sp.setVal( paramVal );
+                        else
+                            std::cerr << "Param '" << sp.getName() << "' ignored. Invalid setting level";
+                        break;
+
+                    case eSettingLevel::USER:
+                        if (sp.getLevel() == eSettingLevel::USER)
+                            sp.setVal( paramVal );
+                        else
+                            std::cerr << "Param '" << sp.getName() << "' ignored. Invalid setting level";
+                        break;
+                }
             }
             else
                 std::cout << "Param '" << paramName << "' does not exist - '" << path << "' at line " << linePos << std::endl;

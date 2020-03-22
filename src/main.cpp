@@ -35,6 +35,7 @@ static SettingParam intTest( "int_test", eSettingLevel::USER, 1234 );
 
 Settings settings;
 
+
 void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( datastoreIPAddress );
     settingsCfg.addParam( datastoreIPAddress );
@@ -49,7 +50,9 @@ void onInit( ISettingsConfig& settingsCfg ) {
     settingsCfg.addParam( floatTest );
     settingsCfg.addParam( intTest );
 
-    settings.loadSysConfig( "" );
+    const std::string   appName = "testapp";
+    settings.loadSysConfig( appName );
+    settings.loadUsrConfig( appName );
 }
 
 void boolTestVal( const char* comment, const SettingParam& param ) {
